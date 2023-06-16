@@ -3,7 +3,8 @@ import pandas as pd
 import math
 
 # Load the dataset
-data = pd.read_csv("Proyecto-Modelos-Estocasticos/kaggle_bot_accounts.csv", nrows=1000)
+data = pd.read_csv("Proyecto-Modelos-Estocasticos/kaggle_bot_accounts.csv", nrows=100000)
+data = data.drop ( ["NAME", "Unnamed: 0","EMAIL_ID"] , axis=1)
 data = data.dropna()
 data = data.drop_duplicates()
 

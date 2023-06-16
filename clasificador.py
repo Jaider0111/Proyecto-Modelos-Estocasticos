@@ -2,8 +2,10 @@ import numpy as np
 import pandas as pd
 import math
 
-# Load the Iris dataset
-data = pd.read_csv("kaggle_bot_accounts.csv", nrows=200000)
+# Load the dataset
+data = pd.read_csv("kaggle_bot_accounts.csv", nrows=1000)
+data = data.dropna()
+data = data.drop_duplicates()
 
 # Split the dataset into features and labels
 X = data.iloc[:, :-1].values

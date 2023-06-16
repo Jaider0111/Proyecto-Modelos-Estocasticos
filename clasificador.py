@@ -3,7 +3,7 @@ import pandas as pd
 import math
 
 # Load the dataset
-data = pd.read_csv("kaggle_bot_accounts.csv", nrows=1000)
+data = pd.read_csv("Proyecto-Modelos-Estocasticos/kaggle_bot_accounts.csv", nrows=1000)
 data = data.dropna()
 data = data.drop_duplicates()
 
@@ -73,7 +73,7 @@ def calculate_likelihood_probabilities(features, labels):
 
             for value in unique_values:
                 count = feature_values.count(value)
-                value_probs[value] = count / len(features)
+                value_probs[value] = (count + 1) / (len(features) + len(unique_values))
 
             likelihood_probs[label].append(value_probs)
 
@@ -101,6 +101,9 @@ def classify(instance, prior_probs, likelihood_probs):
             if feature_value in likelihood_probs[label][i]:
                 likelihood = likelihood_probs[label][i][feature_value]
                 class_scores[label] += math.log(likelihood)
+            else:
+                # Use Laplace smoothing for unseen feature values
+                class_scores[label] += math.log(1 / (len(likelihood_probs[label][i]) + len(set(X_train[:, i]))))
 
     return max(class_scores, key=class_scores.get)
 
